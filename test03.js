@@ -7,9 +7,9 @@
 // a) Usar o json ou xml disponível como fonte dos dados do faturamento mensal;
 // b) Podem existir dias sem faturamento, como nos finais de semana e feriados. Estes dias devem ser ignorados no cálculo da média;
 
-const faturamento = require('./faturamento.json');
+const faturamento = require('./dados.json');
 
-const vetorFaturamentoDiario = faturamento.faturamento_diario.map(d => d.faturamento);
+const vetorFaturamentoDiario = faturamento.map(d => d.valor);
 
 const menorFaturamento = (vetorFat) => {
   let menor = vetorFat[0];
@@ -18,7 +18,7 @@ const menorFaturamento = (vetorFat) => {
       menor = vetorFat[i];
     }
   }
-  return menor;
+  return menor.toFixed(2);
 }
 
 const menorFaturamentoDiaUtil = (vetorFat) => {
@@ -29,7 +29,7 @@ const menorFaturamentoDiaUtil = (vetorFat) => {
       menor = newFat[i];
     }
   }
-  return menor;
+  return menor.toFixed(2);
 }
 
 const maiorFaturamento = (vetorFat) => {
@@ -39,18 +39,18 @@ const maiorFaturamento = (vetorFat) => {
       maior = vetorFat[i];
     }
   }
-  return maior;
+  return maior.toFixed(2);
 } 
 
 const faturamentoMedio = (vetorFat) => {
   const newVetorFat = vetorFat.filter(fat => fat > 0);
-  return newVetorFat.reduce((acc, cur) => acc + cur, 0) / newVetorFat.length;
+  return (newVetorFat.reduce((acc, cur) => acc + cur, 0) / newVetorFat.length).toFixed(2);
 }
 
-console.log('Menor faturamento mensal: ', menorFaturamento(vetorFaturamentoDiario));
+console.log('Menor faturamento mensal: R$: ', menorFaturamento(vetorFaturamentoDiario));
 
-console.log('Menor faturamento mensal em dia útil: ',menorFaturamentoDiaUtil(vetorFaturamentoDiario));
+console.log('Menor faturamento mensal em dia útil: R$:',menorFaturamentoDiaUtil(vetorFaturamentoDiario));
 
-console.log('Maior faturamento mensal: ',maiorFaturamento(vetorFaturamentoDiario));
+console.log('Maior faturamento mensal: R$:',maiorFaturamento(vetorFaturamentoDiario));
 
-console.log('Média do faturamento mensal: ',faturamentoMedio(vetorFaturamentoDiario));
+console.log('Média do faturamento mensal: R$:',faturamentoMedio(vetorFaturamentoDiario));
